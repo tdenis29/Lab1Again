@@ -76,13 +76,13 @@ We have three description attributes.
 1. StaffTypeDescription(Server, Cook etc),
 2. TrainingStatusDescription(Completed, registered ,etc)
 
-But it seems like TrainingDescripton eg. ProServe is NOT in the template. and I only just noticed as I was going to 3NF.
+But it seems like TrainingDescripton eg. ProServe is NOT in the template. and I only just noticed as I was going to 3NF. So will pop it in there because it's a transitive dependency anyway.
 
 ![1706802445907](image/Lab1Again/1706802445907.png)
 
 ### 1NF
 
-StaffID(PK),TrainingStatusID(FK), TrainingID, CompletionDate,Cost
+StaffID(PK),TrainingStatusID(FK), TrainingID,Training Description, CompletionDate,Cost
 
 StaffID(FK PK), Staff F.Name, Staff L.Name, StaffTypeID, StaffTypeDescription, Wage
 
@@ -92,10 +92,30 @@ TrainingStatusID(PK), TrainingStatusDescription
 
 So, we are in 2NF above because we dont have any partial dependencies. TrainingID depends on StaffID of the specific staff taking that training, completion date depends on the if the staffID completed that training. However Cost depends on the trainingID but that is a transitive dependency. Same goes for StaffTypeID and StaffTypeDescription I think those are transitive dpendencies as well.
 
-StaffID(PK),TrainingStatusID(FK), TrainingID, CompletionDate,Cost
+StaffID(PK),TrainingStatusID(FK), TrainingID, TrainingDescription, CompletionDate,Cost
 
 StaffID(FK PK), Staff F.Name, Staff L.Name, StaffTypeID, StaffTypeDescription, Wage
 
 TrainingStatusID(PK), TrainingStatusDescription
 
 ### 3NF
+
+So we have a transitive dependency here in the top table. Training Description depends on trainingID same with Cost 
+
+In the second table we have a transitive dependency between StaffTypeID and StaffTypeDescription including wage.
+
+Staff Training
+StaffID(PK),TrainingStatusID(FK), TrainingID(FK),CompletionDate,
+
+Training
+TrainingID(FK), TrainingDescription, Cost
+
+StaffTypeInfo
+StaffTypeID(PK), StaffTypeDescription, Wage
+
+StaffPersonelInfo
+StaffID(FK PK), Staff F.Name, Staff L.Name,
+
+
+## Bills View
+
