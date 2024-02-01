@@ -35,6 +35,23 @@ EventID(PK), EventDescription
 StaffId(PK), StaffFirstName, StaffLastName
 
 
-
-
 ### 3NF
+
+No transitive dependencies allowed. nonkey attributes can fully depend on each other.
+
+Does CustomerFirstName, CustomerPhone, depend on another non-key attribute? yes they depend on customer ID. So I will take those out of there.
+
+ReservationID(PK),EventID(FK), StaffID(FK), Date, PartySize, Special Accommodations,CustomerID(FK)
+
+CustomerID(PK), CustomerFirstName,CustomerLastName, CustomerPhone, CustomerEmail
+
+EventID(PK), EventDescription
+
+StaffId(PK), StaffFirstName, StaffLastName
+
+Everything here has cardinality to the reservation table.
+Customer to reservation = a reservation must have a customer, but a customer can have zero one or many reservations.
+
+Event to reservation = a reservation can have one and only one event, but an event can appear on zero one or many reservations 
+
+Staff to reservation = a reservation can have one and only one staff, but a staff can work on zero one or many reservation instances. 
