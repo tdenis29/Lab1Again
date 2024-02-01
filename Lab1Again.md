@@ -34,7 +34,6 @@ EventID(PK), EventDescription
 
 StaffId(PK), StaffFirstName, StaffLastName
 
-
 ### 3NF
 
 No transitive dependencies allowed. nonkey attributes can fully depend on each other.
@@ -52,16 +51,16 @@ StaffId(PK), StaffFirstName, StaffLastName
 Everything here has cardinality to the reservation table.
 Customer to reservation = a reservation must have a customer, but a customer can have zero one or many reservations.
 
-Event to reservation = a reservation can have one and only one event, but an event can appear on zero one or many reservations 
+Event to reservation = a reservation can have one and only one event, but an event can appear on zero one or many reservations
 
-Staff to reservation = a reservation can have one and only one staff, but a staff can work on zero one or many reservation instances. 
+Staff to reservation = a reservation can have one and only one staff, but a staff can work on zero one or many reservation instances.
 
-
-## Staff Training Status 
+## Staff Training Status
 
 Staff Training Status View
 
 Ok so we need to keep in mind the purpose of this record. To record staff training status efficiently.
+
 ### Initial Table (attribute list only)
 
 Candidate primary key will be StaffID. So we can search their training status using ID.
@@ -70,17 +69,33 @@ StaffId, (Name, StaffTypeId, StaffTypeDescription, Wage), TrainingId, Completion
 
 So again I made a table in this form to help me identify repeating groups. I think I have found them above. So take them out, designate primary key and flag it as a foreign key in the new table.
 
+ I think there is a missing attribute in out template. TrainingDescription is not on here. 
+
+We have three description attributes.
+
+1. StaffTypeDescription(Server, Cook etc),
+2. TrainingStatusDescription(Completed, registered ,etc)
+
+But it seems like TrainingDescripton eg. ProServe is NOT in the template. and I only just noticed as I was going to 3NF.
+
 ![1706802445907](image/Lab1Again/1706802445907.png)
 
 ### 1NF
 
-StaffID(PK), TrainingID, CompletionDate,Cost
+StaffID(PK),TrainingStatusID(FK), TrainingID, CompletionDate,Cost
 
 StaffID(FK PK), Staff F.Name, Staff L.Name, StaffTypeID, StaffTypeDescription, Wage
 
 TrainingStatusID(PK), TrainingStatusDescription
 
 ### 2NF
-So, we are in 2NF above because we dont have any partial dependencies. TrainingID depends on StaffID of the specific staff taking that training, completion date depends on the if the staffID completed that training. However Cost depends on the trainingID but that is a transitive dependency. 
+
+So, we are in 2NF above because we dont have any partial dependencies. TrainingID depends on StaffID of the specific staff taking that training, completion date depends on the if the staffID completed that training. However Cost depends on the trainingID but that is a transitive dependency. Same goes for StaffTypeID and StaffTypeDescription I think those are transitive dpendencies as well.
+
+StaffID(PK),TrainingStatusID(FK), TrainingID, CompletionDate,Cost
+
+StaffID(FK PK), Staff F.Name, Staff L.Name, StaffTypeID, StaffTypeDescription, Wage
+
+TrainingStatusID(PK), TrainingStatusDescription
 
 ### 3NF
