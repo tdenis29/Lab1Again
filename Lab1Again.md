@@ -69,14 +69,14 @@ StaffId, (Name, StaffTypeId, StaffTypeDescription, Wage), TrainingId, Completion
 
 So again I made a table in this form to help me identify repeating groups. I think I have found them above. So take them out, designate primary key and flag it as a foreign key in the new table.
 
- I think there is a missing attribute in out template. TrainingDescription is not on here. 
+  
 
 We have three description attributes.
 
 1. StaffTypeDescription(Server, Cook etc),
 2. TrainingStatusDescription(Completed, registered ,etc)
 
-But it seems like TrainingDescripton eg. ProServe is NOT in the template. and I only just noticed as I was going to 3NF. So will pop it in there because it's a transitive dependency anyway.
+**But it seems like TrainingDescripton eg. ProServe is NOT in the template.** and I only just noticed as I was going to 3NF. So will pop it in there because it's a transitive dependency anyway.
 
 ![1706802445907](image/Lab1Again/1706802445907.png)
 
@@ -92,9 +92,9 @@ TrainingStatusID(PK), TrainingStatusDescription
 
 So, we are in 2NF above because we dont have any partial dependencies. TrainingID depends on StaffID of the specific staff taking that training, completion date depends on the if the staffID completed that training. However Cost depends on the trainingID but that is a transitive dependency. Same goes for StaffTypeID and StaffTypeDescription I think those are transitive dpendencies as well.
 
-StaffID(PK),TrainingStatusID(FK), TrainingID, TrainingDescription, CompletionDate,Cost
+StaffID(PK FK),TrainingStatusID(FK), TrainingID, TrainingDescription, CompletionDate,Cost
 
-StaffID(FK PK), Staff F.Name, Staff L.Name, StaffTypeID, StaffTypeDescription, Wage
+StaffID(PK), Staff F.Name, Staff L.Name, StaffTypeID, StaffTypeDescription, Wage
 
 TrainingStatusID(PK), TrainingStatusDescription
 
@@ -105,17 +105,33 @@ So we have a transitive dependency here in the top table. Training Description d
 In the second table we have a transitive dependency between StaffTypeID and StaffTypeDescription including wage.
 
 Staff Training
-StaffID(PK),TrainingStatusID(FK), TrainingID(FK),CompletionDate,
+StaffID(PK FK),TrainingStatusID(FK), TrainingID(FK), CompletionDate,
 
 Training
-TrainingID(FK), TrainingDescription, Cost
+TrainingID(PK), TrainingDescription, Cost
 
 StaffTypeInfo
 StaffTypeID(PK), StaffTypeDescription, Wage
 
 StaffPersonelInfo
-StaffID(FK PK), Staff F.Name, Staff L.Name,
+StaffID(PK), Staff F.Name, Staff L.Name,StaffTypeID(Fk)
 
 
 ## Bills View
+
+### Initial Table (attribute list only)
+
+**There is no special requests attribute in the template.** 
+
+Candidate keys, BillID + ReservationID composite key OR just ReservationID. Well since we can have many bills on one reservation I think a composite key would be a btter way of keeping track of what was ordered on what bill for which reservation rather than bill number alne or reservation id alone.
+
+BillId(PK), ReservationId(PK), Date, (MenuItemId, ItemName, Description,Price, ExtendedPrice,SpecialRequests, Quantity,) Subtotal, GST, Tips, Total
+
+### 1NF
+
+BillId(PK), ReservationId(PK), Date, MenuItemID(FK), Subtotal, GST, Tips, Total
+
+MenuItemId(PK), ItemName, Description,Price, ExtendedPrice,SpecialRequests, Quantity
+
+
 
