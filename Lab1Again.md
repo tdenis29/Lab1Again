@@ -69,8 +69,6 @@ StaffId, (Name, StaffTypeId, StaffTypeDescription, Wage), TrainingId, Completion
 
 So again I made a table in this form to help me identify repeating groups. I think I have found them above. So take them out, designate primary key and flag it as a foreign key in the new table.
 
-  
-
 We have three description attributes.
 
 1. StaffTypeDescription(Server, Cook etc),
@@ -148,3 +146,44 @@ BillId(PK), ReservationId(PK), Date, MenuItemID(FK), Subtotal, GST, Tips, Total
 
 MenuItemId(PK), ItemName, Description,Price, ExtendedPrice,SpecialRequests, Quantity
 
+### 3NF
+
+No transistive dependencies.
+
+BillId(PK), ReservationId(PK), Date, MenuItemID(FK), Subtotal, GST, Tips, Total
+
+1. Date depend on subtotal? no 
+2. GST ? no
+3. Tips? no
+4. Total? no
+
+1. Does menuItem depend on subtotal and total? yes because an acummulation of menuItems makes the total.So I will move SubTotal GST Tips and Total to a new table with menuITem as PK but we need a way to associate that with the bill it was ordered on and which reservation. Similar pattern to Memories forever with two PK FK combos as primary key. 
+
+MenuItemId(PK), ItemName, Description,Price, ExtendedPrice,SpecialRequests, Quantity
+
+1. Does itemName depend on description? no
+2. Does itemName depend on price? no 
+3. extPrice? no
+4. Special Requests? no
+5. Quantitiy? no
+
+1. does description depend on price? no
+2. ext price ? no
+3. special reuests ? no
+4. Quantity ? no
+
+1. ext price depends on quantity. 
+
+I moved the transitive dependencies out but I'm over my head with the cardinalities and the composite keys. 
+
+Reservation Bills
+BillId(PK), ReservationId(PK), Date, MenuItemID(FK),
+
+Bill Details
+BillId(PK FK), ReservationId(PK FK),MenuItemID(PK FK),Subtotal, GST, Tips, Total
+
+BilledItems
+BillId(PK FK), ReservationId(PK FK),MenuItemID(PK FK),ExtendedPrice,SpecialRequests, Quantity
+
+MenuItems
+MenuItemId(PK), ItemName, Description, Price
