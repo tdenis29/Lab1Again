@@ -135,3 +135,16 @@ MenuItemId(PK), ItemName, Description,Price, ExtendedPrice,SpecialRequests, Quan
 
 
 
+### 2NF 
+
+No partial dependencies, since we have a compisite key we can potentially have a violation. 
+1. Date depends on entire primary key eg date of this reservation and bill
+2. Special requests depends on entire key? eg special request for items on this bill for this reservation
+but i think special request would fit better in a MenuBillItem Table.
+3. Quantitiy depends on entire primary key
+4. this one is tough but i think we are in 2NF
+
+BillId(PK), ReservationId(PK), Date, MenuItemID(FK), Subtotal, GST, Tips, Total
+
+MenuItemId(PK), ItemName, Description,Price, ExtendedPrice,SpecialRequests, Quantity
+
